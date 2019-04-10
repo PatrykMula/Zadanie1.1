@@ -9,5 +9,11 @@ namespace Zadanie1.Areas.Zadania.Models
     public class DaneContext : DbContext
     {
         public DbSet<Dane> Dane { get; set; }
+
+        public DaneContext()
+            :base("name=TaskDBContext")
+        {
+
+        }
     }
 }
