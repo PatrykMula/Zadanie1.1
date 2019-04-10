@@ -1,0 +1,120 @@
+﻿@using Zadanie1.Areas.Zadania.Models
+@using PagedList;
+@using PagedList.Mvc;
+
+@model IPagedList<Zadanie1.Areas.Zadania.Models.Dane>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Zadania/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-center">To Do - lista zadań</h2>
+@Html.Partial("_BodyHeader")
+@Html.Partial("_Menu")
+@Html.Partial("_Search")
+
+<table id="sortable" class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.ActionLink("" + @Html.DisplayNameFor(model => model.First().DaneId), "Index", new { sortBy = ViewBag.SortIdParameter, pageCount = ViewBag.CurrentPageCount })
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().temat)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().czynnosc)
+            </th>
+            <th>
+                @Html.ActionLink("" + @Html.DisplayNameFor(model => model.First().data_rozpoczecia), "Index", new { sortBy = ViewBag.SortDataRozpoczeciaParameter, pageCount = ViewBag.CurrentPageCount })
+            </th>
+            <th>
+                @Html.ActionLink("" + @Html.DisplayNameFor(model => model.First().data_zakonczenia), "Index", new { sortBy = ViewBag.SortDataZakonczeniaParameter, pageCount = ViewBag.CurrentPageCount })
+            </th>
+            <th>
+                @Html.ActionLink("" + @Html.DisplayNameFor(model => model.First().status), "Index", new { sortBy = ViewBag.SortStatusParameter, pageCount = ViewBag.CurrentPageCount })
+            </th>
+            <th>
+                @Html.ActionLink("" + @Html.DisplayNameFor(model => model.First().priorytet), "Index", new { sortBy = ViewBag.SortPriorytetParameter, pageCount = ViewBag.CurrentPageCount })
+
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().procent_zakonczenia)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+
+            <tr>
+                <th>
+                    @Html.DisplayFor(modelItem => item.DaneId)
+                </th>
+                <th>
+                    @Html.DisplayFor(modelItem => item.temat)
+                </th>
+                <th>
+                    @Html.DisplayFor(modelItem => item.czynnosc)
+                </th>
+                <th>
+                    @String.Format("{0:dd MM yyyy}", item.data_rozpoczecia)
+
+                </th>
+                <th>
+                    @String.Format("{0:dd MM yyyy}", item.data_zakonczenia)
+                </th>
+                <th>
+                    @Html.DisplayFor(modelItem => item.status)
+                </th>
+                <th>
+                    @Html.DisplayFor(modelItem => item.priorytet)
+                </th>
+                <th>
+                    @Html.DisplayFor(modelItem => item.procent_zakonczenia)
+                </th>
+                <th>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" name="checkbox_for_edit" value="@item.DaneId">
+                        <label class="form-check-label" for="checkbox_for_edit">Checkbox</label>
+                    </div>
+                </th>
+                <th id="details-links">
+                    <button type="button">@Html.ActionLink("Szczegóły", "Details/" + item.DaneId, null, new { })</button>
+
+                </th>
+                <th>
+                    <span><button type="button" class="handler1">Przesuń</button></span>
+                </th>
+                <th id="delete-links">
+                    <button type="button">@Html.ActionLink("X", "Delete/" + item.DaneId, null, new { id = "lnkDelete" })</button>
+                </th>
+
+            </tr>
+
+        }
+    </tbody>
+
+</table>
+
+
+
+@Html.Partial("_Pagination")
+
+<script>
+
+    $(document).ready(function () {
+        $("#sortable tbody").sortable({
+            handle: 'button.handler1',
+            cancel: '',
+            placeholder: "ui-state-highlight"
+        });
+        $("#sortable tbody").disableSelection();
+    });
+</script>
+
+
+
+

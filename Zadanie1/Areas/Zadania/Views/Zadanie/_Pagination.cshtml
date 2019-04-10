@@ -1,0 +1,31 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model IPagedList<Zadanie1.Areas.Zadania.Models.Dane>
+@*  drop down wyskakuje jako absolute do diva... poszukaj, aby absolute wyskakiwal do polozenia elementu button *@
+<div class="dropdown pull-right  col-sm-3">
+    Elementów na stronie:
+    <button type="button" class="dropdown-toggle" data-toggle="dropdown">
+        @(ViewBag.CurrentPageCount ?? 10)
+    </button>
+    <ul class="dropdown-menu">
+        
+            <li> @Html.ActionLink("10", (string)ViewBag.Title , new { sortBy = (string)ViewBag.CurrentSort, pageCount = 10 }, null)</li>
+            <li>@Html.ActionLink("20",  (string)ViewBag.Title , new { sortBy = (string)ViewBag.CurrentSort, pageCount = 20 }, null)</li>
+            <li> @Html.ActionLink("30", (string)ViewBag.Title, new { sortBy = (string)ViewBag.CurrentSort, pageCount = 30 }, null)</li>
+            <li> @Html.ActionLink("40", (string)ViewBag.Title, new { sortBy = (string)ViewBag.CurrentSort, pageCount = 40 }, null)</li>
+            <li> @Html.ActionLink("50", (string)ViewBag.Title, new { sortBy = (string)ViewBag.CurrentSort, pageCount = 50 }, null)</li>
+        
+    </ul>
+</div>
+<div class="text-center">
+    @Html.PagedListPager(Model,page=>Url.Action("Index",
+        new { page,sortBy=ViewBag.CurrentSort,pageCount = ViewBag.CurrentPageCount}),
+        new PagedListRenderOptions {LinkToPreviousPageFormat = "Poprzednia",
+            LinkToNextPageFormat = "Następna",
+            DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+            DisplayLinkToNextPage = PagedListDisplayMode.Always
+        })
+</div>
+@*  //przyklad uzycia, jakbym potrzebowal ustawiac, ze ma byc max np. 5 stron na widok
+    @Html.PagedListPager(Model.video, page => Url.Action("video_play", new { page = page }), new PagedListRenderOptions { LinkToFirstPageFormat = "<< Next", LinkToPreviousPageFormat = "<", LinkToNextPageFormat = ">", LinkToLastPageFormat = "Last >>" }, PagedListRenderOptions.OnlyShowFivePagesAtATime)
+*@

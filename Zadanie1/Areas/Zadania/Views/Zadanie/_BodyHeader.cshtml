@@ -1,0 +1,34 @@
+﻿<div class="text-right mb-10">
+    <button type="button">@Html.ActionLink("Dodaj", "Create", null, new { id = "lnkCreate" })</button>
+    <button type="button">@Html.ActionLink("Edycja", "Edit", null, new { id = "lnkEdit" })</button>
+    <button type="button">@Html.ActionLink("Eksportuj Do PDF", "SaveAsPdf", null, new { id = "savePage" })</button>
+    <button type="button">@Html.ActionLink("Eksportuj Do Excela", "SaveAsExcel", null, new { id = "savePageExcel" })</button>
+</div>
+
+
+
+<div id="dialog-edit" title="Basic dialog" class="myDialog" style="background-color:white">
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $("$savePage").click(function (a) {
+            a.preventDefault();
+            url = $(this).attr('href');
+            load(url);
+        @{  TempData["FullModel"] = Model;}
+        }
+    )});
+
+        $(document).ready(function () {
+        $("$savePageExcel").click(function (a) {
+            a.preventDefault();
+            url = $(this).attr('href');
+            load(url);
+        @{  TempData["FullModel"] = Model;}
+        }
+    )});
+
+
+</script>

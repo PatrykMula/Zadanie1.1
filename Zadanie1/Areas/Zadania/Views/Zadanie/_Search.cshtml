@@ -1,0 +1,20 @@
+﻿@using (Html.BeginForm())
+{
+    <p>
+        @Html.Editor("temat", new { htmlAttributes = new { @placeholder = "temat" } })
+        @Html.Editor("czynnosc", new { htmlAttributes = new { @placeholder = "czynnosc" } })
+        @*  gdyby było wymagane, aby jednak zamiast dd-mm-yyyy wyswietlalo sie "data rozpoczecia"
+            <input placeholder="Date" class="textbox-n" type="text" onfocus="(this.type='date')" onfocusout="(this.type='text')">*@
+        @Html.Editor("data_rozpoczecia", new { htmlAttributes = new { @type = "date", @placeholder = "data rozpoczecia" } })
+        @Html.Editor("data_zakonczenia", new { htmlAttributes = new { @type = "date", @placeholder = "data zakonczenia" } })
+        @Html.Editor("priorytet", new { htmlAttributes = new { @type = "number", @placeholder = "priorytet" } })
+        @Html.Editor("procent_zakonczenia", new { htmlAttributes = new { @type = "number", @placeholder = "%zakonczenia" } })
+        @Html.Editor("status", new { htmlAttributes = new { @type = "number", @placeholder = "status" } })
+
+        <input type="submit" value="Szukaj" />
+    </p>
+}
+
+
+
+
