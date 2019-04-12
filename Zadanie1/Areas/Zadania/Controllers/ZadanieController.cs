@@ -79,7 +79,97 @@ namespace Zadanie1.Areas.Zadania.Controllers
             return View(orderedList.ToPagedList(pageNumber, pageSize));
         }
 
-        public ActionResult IndexTiles(string sortBy, int? page, int? pageCount,Dane dane)
+        [HttpPost]
+        public ActionResult Index(string sortBy, int? page, int? pageCount, Dane dane)
+        {
+            ViewBag.CurrentSort = sortBy;
+            ViewBag.CurrentPageCount = pageCount;
+
+            ViewBag.SortNazwa = string.IsNullOrEmpty(sortBy) ? "id" : "";
+            ViewBag.SortDataRozpoczeciaParameter = sortBy == "data_rozpoczecia" ? "data_rozpoczecia*" : "data_rozpoczecia";
+            ViewBag.SortDataZakonczeniaParameter = sortBy == "data_zakonczenia" ? "data_zakonczenia*" : "data_zakonczenia";
+            ViewBag.SortStatusParameter = sortBy == "status" ? "status*" : "status";
+            ViewBag.SortPriorytetParameter = sortBy == "priorytet" ? "priorytet*" : "priorytet";
+
+            //sekcja odpowiedzialna za wyszukiwanie            
+                var zadania = _context.Dane.Where(c => c.temat.Contains(""));
+            { 
+                // var zadania = _context.Dane.Where(c => c.temat.Contains(dane.temat)).ToList();
+                {
+                    zadania = zadania.Where(c => c.temat.Contains(dane.temat));
+                }
+                if (dane.czynnosc != null)
+                {
+                    zadania = zadania.Where(c => c.czynnosc.Contains(dane.czynnosc));
+                }
+                if (dane.data_rozpoczecia != new DateTime())
+                {
+                    zadania = zadania.Where(c => c.data_rozpoczecia == dane.data_rozpoczecia);
+                }
+                if (dane.data_zakonczenia != new DateTime())
+                {
+                    zadania = zadania.Where(c => c.data_zakonczenia == dane.data_zakonczenia);
+                }
+                if (dane.priorytet != 0)
+                {
+                    zadania = zadania.Where(c => c.priorytet == dane.priorytet);
+                }
+                if (dane.procent_zakonczenia != 0)
+                {
+                    zadania = zadania.Where(c => c.procent_zakonczenia == dane.procent_zakonczenia);
+                }
+                if (dane.status != 0)
+                {
+                    zadania = zadania.Where(c => c.status == dane.status);
+                }
+            }
+
+
+            //sekcja odpowiedzialna za sortowanie
+            List<Dane> orderedList = zadania.ToList();
+            switch (sortBy)
+            {
+                case "id":
+                    orderedList = zadania.OrderBy(a => a.DaneId).ToList();
+                    break;
+                case "data_rozpoczecia*":
+                    orderedList = zadania.OrderByDescending(a => a.data_rozpoczecia).ToList();
+                    break;
+                case "data_rozpoczecia":
+                    orderedList = zadania.OrderBy(a => a.data_rozpoczecia).ToList();
+                    break;
+
+                case "data_zakonczenia*":
+                    orderedList = zadania.OrderByDescending(a => a.data_zakonczenia).ToList();
+                    break;
+                case "data_zakonczenia":
+                    orderedList = zadania.OrderBy(a => a.data_zakonczenia).ToList();
+                    break;
+
+                case "status*":
+                    orderedList = zadania.OrderByDescending(a => a.status).ToList();
+                    break;
+                case "status":
+                    orderedList = zadania.OrderBy(a => a.status).ToList();
+                    break;
+
+                case "priorytet*":
+                    orderedList = zadania.OrderByDescending(a => a.priorytet).ToList();
+                    break;
+                case "priorytet":
+                    orderedList = zadania.OrderBy(a => a.priorytet).ToList();
+                    break;
+
+
+
+            }
+            //sekcja odpowiedzialna za paginacje
+            int pageSize = (pageCount ?? 10);
+            int pageNumber = (page ?? 1);
+            return View(orderedList.ToPagedList(pageNumber, pageSize));
+        }
+
+        public ActionResult IndexTiles(string sortBy, int? page, int? pageCount)
         {
             ViewBag.CurrentSort = sortBy;
             ViewBag.CurrentPageCount = pageCount;
@@ -94,6 +184,95 @@ namespace Zadanie1.Areas.Zadania.Controllers
 
             var zadania = _context.Dane.ToList();
             List<Dane> orderedList = zadania;
+            switch (sortBy)
+            {
+                case "id":
+                    orderedList = zadania.OrderBy(a => a.DaneId).ToList();
+                    break;
+                case "data_rozpoczecia*":
+                    orderedList = zadania.OrderByDescending(a => a.data_rozpoczecia).ToList();
+                    break;
+                case "data_rozpoczecia":
+                    orderedList = zadania.OrderBy(a => a.data_rozpoczecia).ToList();
+                    break;
+
+                case "data_zakonczenia*":
+                    orderedList = zadania.OrderByDescending(a => a.data_zakonczenia).ToList();
+                    break;
+                case "data_zakonczenia":
+                    orderedList = zadania.OrderBy(a => a.data_zakonczenia).ToList();
+                    break;
+
+                case "status*":
+                    orderedList = zadania.OrderByDescending(a => a.status).ToList();
+                    break;
+                case "status":
+                    orderedList = zadania.OrderBy(a => a.status).ToList();
+                    break;
+
+                case "priorytet*":
+                    orderedList = zadania.OrderByDescending(a => a.priorytet).ToList();
+                    break;
+                case "priorytet":
+                    orderedList = zadania.OrderBy(a => a.priorytet).ToList();
+                    break;
+
+
+
+            }
+            int pageSize = (pageCount ?? 10);
+            int pageNumber = (page ?? 1);
+            return View(orderedList.ToPagedList(pageNumber, pageSize));
+        }
+        [HttpPost]
+        public ActionResult IndexTiles(string sortBy, int? page, int? pageCount, Dane dane)
+        {
+            ViewBag.CurrentSort = sortBy;
+            ViewBag.CurrentPageCount = pageCount;
+
+            ViewBag.SortNazwa = string.IsNullOrEmpty(sortBy) ? "id" : "";
+            ViewBag.SortIdParameter = sortBy == "id" ? "id*" : "id";
+            ViewBag.SortDataRozpoczeciaParameter = sortBy == "data_rozpoczecia" ? "data_rozpoczecia*" : "data_rozpoczecia";
+            ViewBag.SortDataZakonczeniaParameter = sortBy == "data_zakonczenia" ? "data_zakonczenia*" : "data_zakonczenia";
+            ViewBag.SortStatusParameter = sortBy == "status" ? "status*" : "status";
+            ViewBag.SortPriorytetParameter = sortBy == "priorytet" ? "priorytet*" : "priorytet";
+
+            //sekcja odpowiedzialna za wyszukiwanie            
+            var zadania = _context.Dane.Where(c => c.temat.Contains(""));
+            {
+                // var zadania = _context.Dane.Where(c => c.temat.Contains(dane.temat)).ToList();
+                {
+                    zadania = zadania.Where(c => c.temat.Contains(dane.temat));
+                }
+                if (dane.czynnosc != null)
+                {
+                    zadania = zadania.Where(c => c.czynnosc.Contains(dane.czynnosc));
+                }
+                if (dane.data_rozpoczecia != new DateTime())
+                {
+                    zadania = zadania.Where(c => c.data_rozpoczecia == dane.data_rozpoczecia);
+                }
+                if (dane.data_zakonczenia != new DateTime())
+                {
+                    zadania = zadania.Where(c => c.data_zakonczenia == dane.data_zakonczenia);
+                }
+                if (dane.priorytet != 0)
+                {
+                    zadania = zadania.Where(c => c.priorytet == dane.priorytet);
+                }
+                if (dane.procent_zakonczenia != 0)
+                {
+                    zadania = zadania.Where(c => c.procent_zakonczenia == dane.procent_zakonczenia);
+                }
+                if (dane.status != 0)
+                {
+                    zadania = zadania.Where(c => c.status == dane.status);
+                }
+            }
+
+
+
+            List<Dane> orderedList = zadania.ToList();
             switch (sortBy)
             {
                 case "id":
@@ -172,7 +351,7 @@ namespace Zadanie1.Areas.Zadania.Controllers
             _context.Dane.Remove(daneInDb);
             _context.SaveChanges();
             //tutaj jeszcze dodaj obsluge viewbaga, ktory bedzie wysylal msg, aby wyswietlic komunikat, ze udalo sie usunac element
-            return RedirectToAction("Index","Zadanie");
+            return RedirectToAction("Index", "Zadanie");
         }
         public ActionResult Edit(int id)
         {
@@ -191,7 +370,7 @@ namespace Zadanie1.Areas.Zadania.Controllers
             //jezeli jakims cudem uda sie wprowadzic zle dane, to zostanie przekierowany do Index
             if (!ModelState.IsValid)
             {
-                return RedirectToAction("Index","Zadanie");
+                return RedirectToAction("Index", "Zadanie");
             }
             //gdy id == 0, to jest otrzymywany z create, jezeli jest rozny od 0, to z edita
             if (dane.DaneId == 0)
