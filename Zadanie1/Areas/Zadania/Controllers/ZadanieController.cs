@@ -91,10 +91,21 @@ namespace Zadanie1.Areas.Zadania.Controllers
             ViewBag.SortStatusParameter = sortBy == "status" ? "status*" : "status";
             ViewBag.SortPriorytetParameter = sortBy == "priorytet" ? "priorytet*" : "priorytet";
 
-            //sekcja odpowiedzialna za wyszukiwanie            
-                var zadania = _context.Dane.Where(c => c.temat.Contains(""));
-            { 
+            //sekcja odpowiedzialna za wyszukiwanie
+
+            var zadania = _context.Dane.Where(c => c.temat.Contains(""));
+            if (!(
+                dane.czynnosc ==null 
+                && dane.temat==null 
+                && dane.data_rozpoczecia == new DateTime() 
+                && dane.data_zakonczenia == new DateTime() 
+                && dane.priorytet == 0
+                && dane.procent_zakonczenia == 0
+                && dane.status == 0))
+
+            {
                 // var zadania = _context.Dane.Where(c => c.temat.Contains(dane.temat)).ToList();
+                if(dane.temat != null)
                 {
                     zadania = zadania.Where(c => c.temat.Contains(dane.temat));
                 }
@@ -112,6 +123,7 @@ namespace Zadanie1.Areas.Zadania.Controllers
                 }
                 if (dane.priorytet != 0)
                 {
+                   
                     zadania = zadania.Where(c => c.priorytet == dane.priorytet);
                 }
                 if (dane.procent_zakonczenia != 0)

@@ -266,6 +266,7 @@
     <Content Include="Areas\Zadania\Views\Zadanie\Delete.cshtml" />
     <Content Include="Areas\Zadania\Views\Zadanie\DeleteSuccess.cshtml" />
     <Content Include="App_Browsers\qt.browser" />
+    <Content Include="Areas\Zadania\Views\Zadanie\UpdateOrder.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\my_scripts.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
